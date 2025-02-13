@@ -21,9 +21,16 @@ func main() {
 	//db conenction
 
 	//handler
+	//===========> OLD WAY <===================
 	http.HandleFunc("/", Hello)
+
+	//============> NEW WAY <==================
+
 	//starting the Server
-	err := http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
+	//===============? OLD WAY <=====================
+	// err := http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
+	//================> NEW WAY <=======================
+	err := http.ListenAndServe(fmt.Sprintf(":%d", port), app.routes())
 	if err != nil {
 		log.Fatal(err)
 	}

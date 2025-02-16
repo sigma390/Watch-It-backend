@@ -25,7 +25,7 @@ func main() {
 	http.HandleFunc("/", Hello)
 
 	//============> NEW WAY <==================
-
+	app.routes()
 	//starting the Server
 	//===============? OLD WAY <=====================
 	// err := http.ListenAndServe(fmt.Sprintf(":%d", port), nil)

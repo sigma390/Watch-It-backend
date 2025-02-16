@@ -14,6 +14,8 @@ func (app *application) routes() http.Handler {
 
 	// endpoints
 
+	mux.Get("/homepage", app.HomePage)
+
 	//return teh mux
 	return mux
 }

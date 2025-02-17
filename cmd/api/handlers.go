@@ -56,21 +56,21 @@ func (app *application) Movies(w http.ResponseWriter, r *http.Request) {
 	var movies []models.Movie = []models.Movie{
 		{
 			ID:          1,
-			Title:       "The Dark Knight",
+			Title:       "Batman Begins",
 			Description: "A movie about a batman",
 			ReleaseDate: time.Now(),
-			Duration:    152,
+			Duration:    149,
 			Genre:       "Action",
 			Rating:      8.9,
 		},
 		{
 			ID:          2,
-			Title:       "The Dark Knight Rises",
+			Title:       "The Dark Knight",
 			Description: "A movie about a batman",
 			ReleaseDate: time.Now(),
-			Duration:    152,
+			Duration:    160,
 			Genre:       "Action",
-			Rating:      8.9,
+			Rating:      9.9,
 		},
 		{
 			ID:          3,
@@ -79,7 +79,7 @@ func (app *application) Movies(w http.ResponseWriter, r *http.Request) {
 			ReleaseDate: time.Now(),
 			Duration:    152,
 			Genre:       "Action",
-			Rating:      8.9,
+			Rating:      9,
 		},
 	}
 

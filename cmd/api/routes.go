@@ -11,6 +11,7 @@ func (app *application) routes() http.Handler {
 	//mux
 	mux := chi.NewRouter()
 	mux.Use(middleware.Recoverer) //defualt middleware To log panicks
+	mux.Use(app.enableCORS)       //enable CORS
 
 	// endpoints
 

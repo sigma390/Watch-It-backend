@@ -16,6 +16,11 @@ type PostgresDBRepo struct {
 // Maximum time allowed for database operations
 var DbTimeout = time.Second * 3
 
+// Connection returns a connection pool to the database
+func (m *PostgresDBRepo) Connection() *sql.DB {
+	return m.DB
+}
+
 // AllMovies fetches all movies from the database, sorted by title
 func (m *PostgresDBRepo) AllMovies() ([]*models.Movie, error) {
 	// Create a timeout context to prevent long-running queries

@@ -25,7 +25,7 @@ func main() {
 
 	// Parse command line flags
 	// DSN (Data Source Name) contains all PostgreSQL connection details
-	flag.StringVar(&app.DSN, "dsn", "host=localhost port=5432 user=postgres password=postgres dbname=postgres sslmode=disable connect_timeout=5", "Postgres Connection String")
+	flag.StringVar(&app.DSN, "dsn", "host=localhost port=5432 user=postgres password=postgres dbname=movies sslmode=disable connect_timeout=5", "Postgres Connection String")
 	flag.Parse()
 
 	// Set application domain

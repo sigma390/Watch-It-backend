@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-
-	"example.com/internal/models"
 )
 
 //handler Function
@@ -52,12 +50,15 @@ func (app *application) Statuss(w http.ResponseWriter, r *http.Request) {
 func (app *application) Movies(w http.ResponseWriter, r *http.Request) {
 
 	//get all movies
-	var movies []models.Movie = []models.Movie{}
+	movies, err := app.DB.AllMovies()
+	if err != nil {
+		log.Println(err)
+	}
 
 	//convert to json
 	out, err := json.Marshal(movies)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 
 	//set headers

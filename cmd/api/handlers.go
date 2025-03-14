@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"time"
 
 	"example.com/internal/models"
 )
@@ -53,35 +52,7 @@ func (app *application) Statuss(w http.ResponseWriter, r *http.Request) {
 func (app *application) Movies(w http.ResponseWriter, r *http.Request) {
 
 	//get all movies
-	var movies []models.Movie = []models.Movie{
-		{
-			ID:          1,
-			Title:       "Batman Begins",
-			Description: "A movie about a batman",
-			ReleaseDate: time.Now(),
-			Duration:    149,
-			Genre:       "Action",
-			Rating:      8.9,
-		},
-		{
-			ID:          2,
-			Title:       "The Dark Knight",
-			Description: "A movie about a batman",
-			ReleaseDate: time.Now(),
-			Duration:    160,
-			Genre:       "Action",
-			Rating:      9.9,
-		},
-		{
-			ID:          3,
-			Title:       "The Dark Knight Rises",
-			Description: "A movie about a batman",
-			ReleaseDate: time.Now(),
-			Duration:    152,
-			Genre:       "Action",
-			Rating:      9,
-		},
-	}
+	var movies []models.Movie = []models.Movie{}
 
 	//convert to json
 	out, err := json.Marshal(movies)

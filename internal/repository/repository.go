@@ -1,6 +1,10 @@
 package repository
 
-import "example.com/internal/models"
+import (
+	"database/sql"
+
+	"example.com/internal/models"
+)
 
 // DBRepository defines the interface for database operations
 // By using an interface, we can:
@@ -10,5 +14,6 @@ import "example.com/internal/models"
 type DBRepository interface {
 	// AllMovies retrieves all movies from the database
 	// Returns a slice of movie pointers and any error encountered
+	Connection() *sql.DB
 	AllMovies() ([]*models.Movie, error)
 }

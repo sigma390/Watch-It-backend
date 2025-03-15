@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 )
 
@@ -41,7 +40,8 @@ func (app *application) Movies(w http.ResponseWriter, r *http.Request) {
 	//get all movies
 	movies, err := app.DB.AllMovies()
 	if err != nil {
-		log.Println(err)
+		app.errorJSON(w, err) //use errorJSON function
+		return
 	}
 
 	// //convert to json

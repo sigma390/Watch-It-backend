@@ -1,13 +1,9 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
-	"time"
-
-	"example.com/internal/models"
 )
 
 //handler Function
@@ -35,17 +31,7 @@ func (app *application) Statuss(w http.ResponseWriter, r *http.Request) {
 	}
 	//convert to json using Marshal
 
-	out, err := json.Marshal(payload)
-	if err != nil {
-		log.Fatal(err)
-	}
-	//set headers
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	//send json
-	w.Write(out)
-	// end of function
-	// return nil
+	_ = app.writeJSON(w, http.StatusOK, payload)
 }
 
 //movie Interface
@@ -53,47 +39,27 @@ func (app *application) Statuss(w http.ResponseWriter, r *http.Request) {
 func (app *application) Movies(w http.ResponseWriter, r *http.Request) {
 
 	//get all movies
-	var movies []models.Movie = []models.Movie{
-		{
-			ID:          1,
-			Title:       "Batman Begins",
-			Description: "A movie about a batman",
-			ReleaseDate: time.Now(),
-			Duration:    149,
-			Genre:       "Action",
-			Rating:      8.9,
-		},
-		{
-			ID:          2,
-			Title:       "The Dark Knight",
-			Description: "A movie about a batman",
-			ReleaseDate: time.Now(),
-			Duration:    160,
-			Genre:       "Action",
-			Rating:      9.9,
-		},
-		{
-			ID:          3,
-			Title:       "The Dark Knight Rises",
-			Description: "A movie about a batman",
-			ReleaseDate: time.Now(),
-			Duration:    152,
-			Genre:       "Action",
-			Rating:      9,
-		},
-	}
-
-	//convert to json
-	out, err := json.Marshal(movies)
+	movies, err := app.DB.AllMovies()
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 
-	//set headers
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
+	// //convert to json
+	// out, err := json.Marshal(movies)
+	// if err != nil {
+	// 	log.Println(err)
+	// }
 
-	//send json
-	w.Write(out)
+	// //set headers
+	// w.Header().Set("Content-Type", "application/json")
+	// w.WriteHeader(http.StatusOK)
+
+	// //send json
+	// w.Write(out)
+	_ = app.writeJSON(w, http.StatusOK, movies)
+
+}
+
+func (app *application) Movie(w http.ResponseWriter, r *http.Request) {
 
 }

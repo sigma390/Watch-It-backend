@@ -1,54 +1,57 @@
 package main
 
 import (
-	"database/sql"
 	"flag"
 	"fmt"
 	"log"
 	"net/http"
+
+	"example.com/internal/repository/dbrepo"
 )
 
 const port = 8000
 
-// type For App Config basiacally it Stores All
+// application struct holds the application-wide dependencies and configuration
+// This provides a clean way to share these resources across different parts of the app
 type application struct {
-	Domain string
-	DSN    string
-	DB     *sql.DB
+	Domain string                // Server domain name
+	DSN    string                // Database connection string
+	DB     dbrepo.PostgresDBRepo // Repository for database operations
 }
 
 func main() {
-	// app Config
+	// Initialize the application struct
 	var app application
 
-	//read From Command Line (DSN me Store kr rhe hai yeh Data )
-	flag.StringVar(&app.DSN, "dsn", "host=localhost port=5432 user=postgres password=postgres dbname=postgres sslmode=disable connect_timeout=5", "Postgres Connection String")
+	// Parse command line flags
+	// DSN (Data Source Name) contains all PostgreSQL connection details
+	flag.StringVar(&app.DSN, "dsn", "host=localhost port=5432 user=postgres password=postgres dbname=movies sslmode=disable connect_timeout=5", "Postgres Connection String")
 	flag.Parse()
 
-	//use of that App variable
+	// Set application domain
 	app.Domain = "localhost"
-	//db conenction
+
+	// Connect to the database
 	conn, err := app.connectToDB()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal(err) // Exit if database connection fails
 	}
-	app.DB = conn
-	defer app.DB.Close() //Closing Connection Pool
 
-	//handler
-	//===========> OLD WAY <===================
+	// Initialize the PostgreSQL repository with our database connection
+	app.DB = dbrepo.PostgresDBRepo{DB: conn}
+	defer app.DB.Connection().Close() // Ensure connection pool is closed when app exits
+
+	// Set up HTTP routes
+	// Old way (simple handler function)
 	http.HandleFunc("/", Hello)
 
-	//============> NEW WAY <==================
+	// New way (using application's route method that returns a router)
 	app.routes()
-	//starting the Server
-	//===============? OLD WAY <=====================
-	// err := http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
-	//================> NEW WAY <=======================
+
+	// Start the HTTP server
 	fmt.Println("Starting Server on port", port)
 	err = http.ListenAndServe(fmt.Sprintf(":%d", port), app.routes())
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal(err) // Exit if server fails to start
 	}
-
 }

@@ -71,3 +71,27 @@ func (app *application) readJSON(w http.ResponseWriter, r *http.Request, data in
 
 	return nil
 }
+
+//====================> error Json <====================
+
+// errorJSON is a helper method that generates a standardized JSON error response
+// It takes an error, converts it to a JSONResponse, and sends it to the client
+// Optionally accepts a custom HTTP status code (defaults to 400 Bad Request if not provided)
+func (app *application) errorJSON(w http.ResponseWriter, err error, status ...int) error {
+	// Default to HTTP 400 Bad Request if no status code is provided
+	statusCode := http.StatusBadRequest
+
+	// If a custom status code is provided as a variadic parameter, use it instead
+	if len(status) > 0 {
+		statusCode = status[0]
+	}
+
+	// Create the error response payload
+	var payLoad JSONResponse
+	payLoad.Error = true          // Mark this as an error response
+	payLoad.Message = err.Error() // Use the error's message as the response message
+
+	// Use the writeJSON helper to send the error response to the client
+	// This handles JSON marshaling, setting headers, and writing to the response
+	return app.writeJSON(w, statusCode, payLoad)
+}

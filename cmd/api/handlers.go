@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -32,17 +31,7 @@ func (app *application) Statuss(w http.ResponseWriter, r *http.Request) {
 	}
 	//convert to json using Marshal
 
-	out, err := json.Marshal(payload)
-	if err != nil {
-		log.Fatal(err)
-	}
-	//set headers
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	//send json
-	w.Write(out)
-	// end of function
-	// return nil
+	_ = app.writeJSON(w, http.StatusOK, payload)
 }
 
 //movie Interface
@@ -55,17 +44,22 @@ func (app *application) Movies(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 
-	//convert to json
-	out, err := json.Marshal(movies)
-	if err != nil {
-		log.Println(err)
-	}
+	// //convert to json
+	// out, err := json.Marshal(movies)
+	// if err != nil {
+	// 	log.Println(err)
+	// }
 
-	//set headers
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
+	// //set headers
+	// w.Header().Set("Content-Type", "application/json")
+	// w.WriteHeader(http.StatusOK)
 
-	//send json
-	w.Write(out)
+	// //send json
+	// w.Write(out)
+	_ = app.writeJSON(w, http.StatusOK, movies)
+
+}
+
+func (app *application) Movie(w http.ResponseWriter, r *http.Request) {
 
 }

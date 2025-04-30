@@ -16,4 +16,5 @@ type DBRepository interface {
 	// Returns a slice of movie pointers and any error encountered
 	Connection() *sql.DB
 	AllMovies() ([]*models.Movie, error)
+	GetUserByEmail(email string) (*models.User, error)
 }

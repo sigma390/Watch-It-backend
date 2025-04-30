@@ -66,6 +66,28 @@ func (app *application) Movie(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) authenticate(w http.ResponseWriter, r *http.Request) {
+
+	//read Request Payload
+	var requestPayload struct {
+		Email    string `json:"email"`
+		Password string `json:"password"`
+	}
+
+	//decode json
+	err := app.readJSON(w, r, &requestPayload)
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
+
+	//get user By Email
+	user, err := app.DB.GetUserByEmail(requestPayload.Email)
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
+	//check Password and User exists Oor not
+
 	//USER
 	u := jwtUser{
 		ID:        1,

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -61,5 +62,22 @@ func (app *application) Movies(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) Movie(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func (app *application) authenticate(w http.ResponseWriter, r *http.Request) {
+	//USER
+	u := jwtUser{
+		ID:        1,
+		FirstName: "Admin",
+		LastName:  "User",
+	}
+	tokens, err := app.auth.GenerateTokenPair(&u)
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
+	log.Println(tokens)
+	w.Write([]byte(tokens.Token))
 
 }

@@ -41,6 +41,8 @@ type TokenClaims struct {
 	// Custom claims can be added here as needed
 }
 
+//
+
 func (j *Auth) GenerateTokenPair(user *jwtUser) (TokenPair, error) {
 	// Create a token
 	token := jwt.New(jwt.SigningMethodHS256)

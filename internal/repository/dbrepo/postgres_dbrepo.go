@@ -91,6 +91,9 @@ func (m *PostgresDBRepo) GetUserByEmail(email string) (*models.User, error) {
 		&user.Email,
 		&user.FirstName,
 		&user.LastName,
+		&user.Password,
+		&user.CreatedAt,
+		&user.UpdatedAt,
 	)
 	if err != nil {
 		return nil, err
